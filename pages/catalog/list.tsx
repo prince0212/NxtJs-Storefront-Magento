@@ -1,15 +1,21 @@
 import { useQuery, gql } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const List = (newdata: any) => {
+  let totalAttributesCount = 0;
+  let totalPageCount = 0;
+  const [pageNumber, setPageNumber] = useState(1);
+
   const CATEGORY_QUERY = gql`
   {
     products(
       filter: { category_id: { eq: "${newdata.categoryId}" } }
       sort: {name: ASC},
-      currentPage: 1
+      currentPage: ${pageNumber}
     ) {
+      total_count
           items {
               name
               sku
@@ -48,6 +54,9 @@ const List = (newdata: any) => {
   }[] = [];
   const { data, loading, error } = useQuery(CATEGORY_QUERY);
   if (data) {
+    totalAttributesCount = data.products.total_count;
+    totalPageCount = Math.ceil(totalAttributesCount / 20);
+    console.log(data.products.total_count);
     data.products.items.map((item: any, _index: any) => {
       productData.push({
         sku: item.sku,
@@ -77,6 +86,51 @@ const List = (newdata: any) => {
               {newdata.categoryName}
             </h1>
           </div>
+          {data.products.total_count > 20 && (
+            <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+              <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <div>&nbsp;</div>
+                <div>
+                  <nav
+                    className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                    aria-label="Pagination"
+                  >
+                    {pageNumber == 1 && (
+                      <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
+                        Previous
+                      </button>
+                    )}
+                    {pageNumber > 1 && (
+                      <button
+                        className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                        onClick={() => {
+                          setPageNumber(pageNumber - 1);
+                        }}
+                      >
+                        Previous
+                      </button>
+                    )}
+                    &nbsp;{" "}
+                    {totalPageCount == pageNumber && (
+                      <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
+                        Next
+                      </button>
+                    )}
+                    {totalPageCount != pageNumber && (
+                      <button
+                        className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                        onClick={() => {
+                          setPageNumber(pageNumber + 1);
+                        }}
+                      >
+                        Next
+                      </button>
+                    )}
+                  </nav>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="flex flex-wrap -m-4">
             {productData.map((item: any) => {
               return (
@@ -109,6 +163,60 @@ const List = (newdata: any) => {
             })}
           </div>
         </div>
+        {data.products.total_count > 20 && (
+          <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-gray-700">
+                  Showing <span className="font-medium">{pageNumber}</span> to{" "}
+                  <span className="font-medium">20</span> of{" "}
+                  <span className="font-medium">
+                    {data.products.total_count}
+                  </span>{" "}
+                  results
+                </p>
+              </div>
+              <div>
+                <nav
+                  className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                  aria-label="Pagination"
+                >
+                  {pageNumber == 1 && (
+                    <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
+                      Previous
+                    </button>
+                  )}
+                  {pageNumber > 1 && (
+                    <button
+                      className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                      onClick={() => {
+                        setPageNumber(pageNumber - 1);
+                      }}
+                    >
+                      Previous
+                    </button>
+                  )}
+                  &nbsp;{" "}
+                  {totalPageCount == pageNumber && (
+                    <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
+                      Next
+                    </button>
+                  )}
+                  {totalPageCount != pageNumber && (
+                    <button
+                      className="ininline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                      onClick={() => {
+                        setPageNumber(pageNumber + 1);
+                      }}
+                    >
+                      Next
+                    </button>
+                  )}
+                </nav>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     );
   }
