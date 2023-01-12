@@ -6,14 +6,15 @@ import { useState } from "react";
 const List = (newdata: any) => {
   let totalAttributesCount = 0;
   let totalPageCount = 0;
-  const [pageNumber, setPageNumber] = useState(1);
+  // const [pageNumber, setPageNumber] = useState(1);
 
+  //currentPage: ${pageNumber}
   const CATEGORY_QUERY = gql`
   {
     products(
       filter: { category_id: { eq: "${newdata.categoryId}" } }
       sort: {name: ASC},
-      currentPage: ${pageNumber}
+      currentPage: 1
     ) {
       total_count
           items {
@@ -86,7 +87,7 @@ const List = (newdata: any) => {
               {newdata.categoryName}
             </h1>
           </div>
-          {data.products.total_count > 20 && (
+          {/* {data.products.total_count > 20 && (
             <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>&nbsp;</div>
@@ -118,7 +119,7 @@ const List = (newdata: any) => {
                     )}
                     {totalPageCount != pageNumber && (
                       <button
-                        className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                        className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
                         onClick={() => {
                           setPageNumber(pageNumber + 1);
                         }}
@@ -130,7 +131,7 @@ const List = (newdata: any) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
           <div className="flex flex-wrap -m-4">
             {productData.map((item: any) => {
               return (
@@ -163,7 +164,7 @@ const List = (newdata: any) => {
             })}
           </div>
         </div>
-        {data.products.total_count > 20 && (
+        {/* {data.products.total_count > 20 && (
           <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
@@ -216,7 +217,7 @@ const List = (newdata: any) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </section>
     );
   }
