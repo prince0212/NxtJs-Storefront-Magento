@@ -77,6 +77,7 @@ const List = (newdata: any) => {
       </div>
     );
   }
+
   if (error) return <pre>{error.message}</pre>;
   if (productData) {
     return (
@@ -87,6 +88,50 @@ const List = (newdata: any) => {
               {newdata.categoryName}
             </h1>
           </div>
+
+          <div className="bg-white">
+            <div className="mx-auto py-12 px-4 sm:py-12 sm:px-6 lg:px-8">
+              <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                {productData.map((item: any) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <Link
+                    legacyBehavior
+                    href={`/catalog/view?sku=${item.sku}&slug=${item.url}`}
+                    as={`/catalog/view?sku=${item.sku}&slug=${item.url}`}
+                    passHref
+                  >
+                    <a>
+                      <div key={item.id} className="group relative">
+                        <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
+                          <Image
+                            src={item.image}
+                            width={384}
+                            height={512}
+                            alt={""}
+                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                          />
+                        </div>
+                        <div className="mt-4 flex justify-between">
+                          <div>
+                            <h2 className="text-gray-900 title-font text-lg font-medium">
+                              {item.name}
+                            </h2>
+                            <p className="mt-1 text-sm text-gray-900">
+                              {item.sku}
+                            </p>
+                          </div>
+                          <p className="text-sm font-medium text-gray-900">
+                            ${item.price}
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* {data.products.total_count > 20 && (
             <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
@@ -132,37 +177,6 @@ const List = (newdata: any) => {
               </div>
             </div>
           )} */}
-          <div className="flex flex-wrap -m-4">
-            {productData.map((item: any) => {
-              return (
-                // eslint-disable-next-line react/jsx-key
-                <div className="lg:w-1/4 md:w-1/2 p-4 w-full">
-                  <Link
-                    legacyBehavior
-                    href={`/catalog/view?sku=${item.sku}&slug=${item.url}`}
-                    as={`/catalog/view?sku=${item.sku}&slug=${item.url}`}
-                    passHref
-                  >
-                    <a className="relative h-48 rounded">
-                      <Image
-                        src={item.image}
-                        width={384}
-                        height={512}
-                        alt={""}
-                        className="w-full object-cover object-center group-hover:opacity-75 rounded-2xl"
-                      />
-                      <div className="mt-4">
-                        <h2 className="text-gray-900 title-font text-lg font-medium">
-                          {item.name}
-                        </h2>
-                        <p className="mt-1">${item.price}</p>
-                      </div>
-                    </a>
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
         </div>
         {/* {data.products.total_count > 20 && (
           <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
