@@ -37,7 +37,7 @@ const List = (newdata: any) => {
   useEffect(() => {
     setLoaded(false);
     getProducts();
-  }, [newdata.categoryId]);
+  }, [newdata.categoryId, newdata.categoryName]);
 
   if (!loaded) {
     return (
@@ -52,7 +52,7 @@ const List = (newdata: any) => {
   if (product && product.length > 0) {
     return (
       <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-6 mx-auto">
           <div className="flex flex-wrap w-full mb-5 flex-col items-center text-center">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
               {newdata.categoryName}
@@ -246,7 +246,14 @@ export default List;
 export async function getServerSideProps(context: {
   query: { id: any; name: any };
 }) {
+  const { id } = context.query;
+  const result = await axios.get(
+    process.env.NEXT_JS_URL + `api/getCategory?categoryId=` + id
+  );
   return {
-    props: { categoryId: context.query.id, categoryName: context.query.name },
+    props: {
+      categoryId: context.query.id,
+      categoryName: result.data.data.name,
+    },
   };
 }

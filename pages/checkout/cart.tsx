@@ -57,11 +57,11 @@ const Cart = () => {
   }
   if (error) {
     return (
-      <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container mx-auto mt-5 grid px-5">
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-6 mx-auto ">
           <div className="flex my-10">
-            <div className="w-3/4 bg-white px-10 py-10">
-              <div className="flex justify-between border-b pb-8">
+            <div className="w-full bg-white px-10 py-10">
+              <div className="flex justify-between border-b-2 border-gray-200 pb-8">
                 <h1 className="font-semibold text-2xl">Shopping Cart</h1>
               </div>
               <div className="flex mt-5 mb-5">
@@ -81,10 +81,10 @@ const Cart = () => {
   if (cartData) {
     return (
       <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container mx-auto mt-5 grid px-5">
+        <div className="container px-5 py-6 mx-auto">
           <div className="flex my-10">
             <div className="w-3/4 bg-white px-10 py-10">
-              <div className="flex justify-between border-b pb-8">
+              <div className="flex justify-between border-b border-gray-300 pb-8">
                 <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
                   Shopping Cart
                 </h1>
@@ -118,7 +118,7 @@ const Cart = () => {
                           <span className="text-base font-medium text-gray-900 title-font mb-2">
                             {item.name}
                           </span>
-                          <span className="text-indigo-500 text-s mt-2">
+                          <span className="text-gray-500 text-sm mt-2">
                             {item.sku}
                           </span>
                         </div>
@@ -148,7 +148,7 @@ const Cart = () => {
             </div>
 
             <div id="summary" className="w-1/4 px-8 py-10">
-              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 border-b pb-10">
+              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 border-b border-gray-300 pb-10">
                 Order Summary
               </h1>
 
@@ -164,12 +164,12 @@ const Cart = () => {
                       <span>{cartTotalData.discount_amount}</span>
                     </div>
                   )}
-                  <div className="flex border-t sm:text-2xl title-font font-medium justify-between py-5">
+                  <div className="flex mt-5 sm:text-2xl title-font font-medium justify-between py-5 border-t border-gray-300">
                     <span>Grand Total</span>
                     <span>${cartTotalData.grand_total}</span>
                   </div>
                   <Link href="/checkout/billing" legacyBehavior>
-                    <button className="flex w-full text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-center text-lg place-content-center">
+                    <button className="flex w-full text-white bg-indigo-500 border-b border-gray-300 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-center text-lg place-content-center">
                       Proceed To Checkout
                     </button>
                   </Link>

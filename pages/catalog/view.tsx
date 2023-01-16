@@ -130,27 +130,7 @@ const View = (newdata: any) => {
         document.getElementById("succmessage").innerHTML = response;
       });
   }
-  const images = [
-    {
-      original:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-      thumbnail:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-    },
-    {
-      original:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-      thumbnail:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-    },
-    {
-      original:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-      thumbnail:
-        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
-    },
-  ];
-  let productImage = [];
+  let productImage: { original: any; thumbnail: any; }[] = [];
   if (productData) {
     {
       productData.map((item: any) => {
@@ -175,7 +155,7 @@ const View = (newdata: any) => {
           {productData.map((item: any) => {
             return (
               // eslint-disable-next-line react/jsx-key
-              <div className="container px-5 py-24 mx-auto">
+              <div className="container px-5 py-6 mx-auto">
                 <div
                   className="flex flex-col text-center w-full text-green-700 mb-5"
                   id="succmessage"

@@ -35,10 +35,10 @@ function CartDetails() {
   if (cartData) {
     return (
       <div className="col-span-1 bg-white lg:block hidden">
-        <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">
+        <h1 className="py-6 text-xl text-gray-600 px-8">
           Order Summary
         </h1>
-        <ul className="py-6 border-b space-y-6 px-8">
+        <ul className="py-6 border-t border-gray-300 space-y-6 px-8">
           {cartData.map((item: any) => {
             return (
               <>
@@ -50,13 +50,13 @@ function CartDetails() {
                     <span className="text-gray-600 text-md font-semi-bold">
                       {item.name}
                     </span>
-                    <span className="text-indigo-500 text-s inline-block pt-2">
+                    <span className="text-gray-500 text-sm inline-block pt-2">
                       {item.sku}
                     </span>
                   </div>
                   <div className="col-span-2 pt-3">
                     <div className="flex items-center space-x-2 text-sm justify-between">
-                      <span className="text-gray-600">{item.qty}</span>
+                      <span className="text-gray-600 ml-5" >{item.qty}</span>
                       <span className="text-gray-600 font-l inline-block">
                         ${item.price * item.qty}
                       </span>

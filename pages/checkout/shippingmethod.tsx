@@ -76,7 +76,7 @@ function ShippingMethod() {
   if (shippingMethods) {
     return (
       <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-6 mx-auto">
           <div className="grid grid-cols-3">
             <div className="lg:col-span-2 col-span-3 bg-indigo-50 space-y-8 px-12 py-12">
               <div className="rounded-md">

@@ -9,9 +9,7 @@ function HomePageBottomContent(props: any) {
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
           <Image
             src={
-              process.env.domain +
-              "media/" +
-              `${props.homePageBanner.image}`
+              process.env.domain + "media/" + `${props.homePageBanner.image}`
             }
             alt="Picture of the author"
             width={650}
@@ -22,9 +20,7 @@ function HomePageBottomContent(props: any) {
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
             {props.homePageBanner.title}
           </h1>
-          <p className="mb-8 leading-relaxed">
-            {props.homePageBanner.content}
-          </p>
+          <p className="mb-8 leading-relaxed">{props.homePageBanner.content}</p>
           <div className="flex justify-center">
             <Link href={`${props.homePageBanner.link}`}>
               <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">

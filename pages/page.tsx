@@ -25,7 +25,7 @@ const CmsPage = (newdata: any) => {
   if (data) {
     return (
       <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container px-10 py-10 mx-auto">
+        <div className="container px-5 py-6 mx-auto">
           <div className="flex flex-wrap -m-12">
             <div className="p-12 flex flex-col items-start">
               <h2 className="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">

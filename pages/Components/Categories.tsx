@@ -7,8 +7,8 @@ function Categories(props) {
           // eslint-disable-next-line react/jsx-key
           <Link
             legacyBehavior
-            href={`/catalog/list?id=${item.newCatId}&name=${item.catgoryName}`}
-            as={`/catalog/list?id=${item.newCatId}&name=${item.catgoryName}`}
+            href={`/catalog/list?id=${item.newCatId}`}
+            as={`/catalog/list?id=${item.newCatId}`}
             passHref
           >
             <a className="mr-5 hover:text-gray-900">{item.catgoryName}</a>

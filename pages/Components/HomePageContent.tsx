@@ -14,7 +14,7 @@ function HomePageContent(props: any) {
             width={440}
             height={320}
           />
-          <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
+          <h2 className="text-lg text-gray-900 font-medium title-font mb-4 mt-4">
             {props.homePageContent.title}
           </h2>
           <p className="leading-relaxed text-base">
