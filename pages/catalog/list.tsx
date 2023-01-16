@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 let totalCategoriesCount = 0;
 let totalPageCount = 0;
@@ -8,9 +9,10 @@ let totalPageCount = 0;
 const List = (newdata: any) => {
   const [product, setProductData] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
+  const router = useRouter();
+  let pageNumber = router.query.pageNumber;
   const productList = [];
-
+  const dynamicRoute = useRouter().asPath;
   function getProducts() {
     axios({
       method: "get",
@@ -25,7 +27,7 @@ const List = (newdata: any) => {
         if (response.status == 200) {
           setProductData(response.data.data);
           totalCategoriesCount = response.data.total_count;
-          totalPageCount = Math.ceil(totalCategoriesCount / 10);
+          totalPageCount = Math.ceil(totalCategoriesCount / 20);
           setLoaded(true);
         }
       })
@@ -33,11 +35,40 @@ const List = (newdata: any) => {
         console.log(response);
       });
   }
+  function changeNextPageNumber() {
+    pageNumber = Number(pageNumber) + 1;
+
+    router.push(
+      {
+        pathname: "/catalog/list",
+        query: {
+          id: newdata.categoryId,
+          pageNumber: pageNumber,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }
+  function changePreviousPageNumber() {
+    pageNumber = Number(pageNumber) - 1;
+    router.push(
+      {
+        pathname: "/catalog/list",
+        query: {
+          id: newdata.categoryId,
+          pageNumber: pageNumber,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     setLoaded(false);
     getProducts();
-  }, [newdata.categoryId, newdata.categoryName]);
+  }, [newdata.categoryId, newdata.categoryName, pageNumber]);
 
   if (!loaded) {
     return (
@@ -58,7 +89,6 @@ const List = (newdata: any) => {
               {newdata.categoryName}
             </h1>
           </div>
-
           <div className="bg-white">
             <div className="mx-auto py-12 px-4 sm:py-12 sm:px-6 lg:px-8">
               <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -117,7 +147,7 @@ const List = (newdata: any) => {
             </div>
           </div>
 
-          {/* {totalCategoriesCount > 20 && (
+          {totalCategoriesCount > 20 && (
             <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>&nbsp;</div>
@@ -127,32 +157,28 @@ const List = (newdata: any) => {
                     aria-label="Pagination"
                   >
                     {pageNumber == 1 && (
-                      <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
+                      <button className="inline-flex items-center text-white bg-gray-500 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
                         Previous
                       </button>
                     )}
                     {pageNumber > 1 && (
                       <button
                         className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-                        onClick={() => {
-                          setPageNumber(pageNumber - 1);
-                        }}
+                        onClick={changePreviousPageNumber}
                       >
                         Previous
                       </button>
                     )}
                     &nbsp;{" "}
                     {totalPageCount == pageNumber && (
-                      <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
-                        Next
+                      <button className="inline-flex items-center text-white bg-gray-500 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
+                      Next
                       </button>
                     )}
                     {totalPageCount != pageNumber && (
                       <button
-                        className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
-                        onClick={() => {
-                          setPageNumber(pageNumber + 1);
-                        }}
+                        className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
+                        onClick={changeNextPageNumber}
                       >
                         Next
                       </button>
@@ -161,62 +187,8 @@ const List = (newdata: any) => {
                 </div>
               </div>
             </div>
-          )} */}
+          )}
         </div>
-        {/* {data.products.total_count > 20 && (
-          <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{pageNumber}</span> to{" "}
-                  <span className="font-medium">20</span> of{" "}
-                  <span className="font-medium">
-                    {data.products.total_count}
-                  </span>{" "}
-                  results
-                </p>
-              </div>
-              <div>
-                <nav
-                  className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-                  aria-label="Pagination"
-                >
-                  {pageNumber == 1 && (
-                    <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
-                      Previous
-                    </button>
-                  )}
-                  {pageNumber > 1 && (
-                    <button
-                      className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-                      onClick={() => {
-                        setPageNumber(pageNumber - 1);
-                      }}
-                    >
-                      Previous
-                    </button>
-                  )}
-                  &nbsp;{" "}
-                  {totalPageCount == pageNumber && (
-                    <button className="inline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0">
-                      Next
-                    </button>
-                  )}
-                  {totalPageCount != pageNumber && (
-                    <button
-                      className="ininline-flex items-center text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-                      onClick={() => {
-                        setPageNumber(pageNumber + 1);
-                      }}
-                    >
-                      Next
-                    </button>
-                  )}
-                </nav>
-              </div>
-            </div>
-          </div>
-        )} */}
       </section>
     );
   } else {

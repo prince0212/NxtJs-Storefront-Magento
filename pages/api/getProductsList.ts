@@ -17,7 +17,9 @@ export default async function handler(
     process.env.API_URL +
     `rest/default/V1/products?searchCriteria[currentPage]=` +
     pageNumber +
-    `&searchCriteria[pageSize]=500&searchCriteria[filter_groups][0][filters][0][field]=visibility&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[filter_groups][0][filters][0][value]=4&searchCriteria[filter_groups][1][filters][1][value]=1&searchCriteria[filter_groups][1][filters][1][condition_type]=eq&searchCriteria[filter_groups][1][filters][1][field]=status&searchCriteria[filter_groups][2][filters][1][value]=` +
+    `&searchCriteria[pageSize]=` +
+    process.env.pageSize +
+    `&searchCriteria[filter_groups][0][filters][0][field]=visibility&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[filter_groups][0][filters][0][value]=4&searchCriteria[filter_groups][1][filters][1][value]=1&searchCriteria[filter_groups][1][filters][1][condition_type]=eq&searchCriteria[filter_groups][1][filters][1][field]=status&searchCriteria[filter_groups][2][filters][1][value]=` +
     categoryId +
     `&searchCriteria[filter_groups][2][filters][1][condition_type]=eq&searchCriteria[filter_groups][2][filters][1][field]=category_id`;
 
