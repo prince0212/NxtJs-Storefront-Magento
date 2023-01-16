@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, gql } from "@apollo/client";
+import ImageGallery from "react-image-gallery";
 import { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
@@ -74,8 +75,10 @@ const View = (newdata: any) => {
       productData.push({
         name: item.name,
         sku: item.sku,
+        stock_status: item.stock_status,
         price: item.price_range.maximum_price.final_price.value,
         image: item.image.url,
+        media_gallery: item.media_gallery,
         description: item.description.html,
       });
     });
@@ -127,7 +130,45 @@ const View = (newdata: any) => {
         document.getElementById("succmessage").innerHTML = response;
       });
   }
+  const images = [
+    {
+      original:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+      thumbnail:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+    },
+    {
+      original:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+      thumbnail:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+    },
+    {
+      original:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+      thumbnail:
+        "http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/5/9/59083714_5_1.jpg",
+    },
+  ];
+  let productImage = [];
   if (productData) {
+    {
+      productData.map((item: any) => {
+        if (item.media_gallery.length > 1) {
+          item.media_gallery.map((newitem: any) => {
+            productImage.push({
+              original: newitem.url,
+              thumbnail: newitem.url,
+            });
+            console.log(newitem.url);
+            // if (item.media_gallery) {
+            //   productImage.push({ original: item.url, thumbnail: item.url });
+            // }
+          });
+        }
+      });
+    }
+    console.log(productImage);
     return (
       <section className="text-gray-600 body-font overflow-hidden">
         <>
@@ -142,26 +183,55 @@ const View = (newdata: any) => {
 
                 <input type="hidden" id="sku" name="sku" value={item.sku} />
                 <div className="lg:w-11/12 mx-auto flex flex-wrap">
-                  <Image
-                    src={item.image}
-                    width={600}
-                    height={512}
-                    alt={""}
-                    className="object-cover object-center group-hover:opacity-75"
-                  />
-                  <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                    <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                      {item.name}
-                    </h1>
+                  <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
+                    {productImage.length > 0 && (
+                      <ImageGallery
+                        items={productImage}
+                        autoPlay={false}
+                        showPlayButton={false}
+                        lazyLoad={true}
+                        showNav={true}
+                        thumbnailPosition="left"
+                      />
+                    )}
+                    {productImage.length <= 0 && (
+                      <Image
+                        src={item.image}
+                        width={600}
+                        height={512}
+                        alt={""}
+                        className="object-cover object-center group-hover:opacity-75"
+                      />
+                    )}
+                  </div>
+                  <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
+                    <div className="text-left mb-5">
+                      <h1 className="text-gray-900 text-4xl title-font font-medium mb-2">
+                        {item.name}
+                      </h1>
+                      <p className="text-sm title-font text-gray-500 tracking-widest">
+                        SKU#: {item.sku}
+                      </p>
+                      <p className="text-sm title-font text-gray-500 tracking-widest">
+                        {
+                          (item.stock_status = "IN_STOCK"
+                            ? "IN STOCK"
+                            : "OUT OF STOCK")
+                        }
+                      </p>
+                    </div>
+                    <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
+                      <div className="flex"></div>
+                    </div>
                     <p
-                      className="leading-relaxed mb-8"
+                      className="leading-relaxed mb-8 text-black"
                       dangerouslySetInnerHTML={{ __html: item.description }}
                     ></p>
-                    <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
+                    <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
                       <div className="flex"></div>
                     </div>
                     <div className="flex">
-                      <span className="title-font font-medium text-2xl text-gray-900">
+                      <span className="title-font font-bold text-3xl text-gray-900">
                         ${item.price}
                       </span>
                       <button
