@@ -172,7 +172,7 @@ const List = (newdata: any) => {
                     &nbsp;{" "}
                     {totalPageCount == pageNumber && (
                       <button className="inline-flex items-center text-white bg-gray-500 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
-                      Next
+                        Next
                       </button>
                     )}
                     {totalPageCount != pageNumber && (

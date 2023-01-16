@@ -5,7 +5,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
 
 const client = new ApolloClient({
-  uri: "http://b2c-community.local:8800/graphql/",
+  uri: process.env.domain + "graphql/",
   cache: new InMemoryCache(),
 });
 

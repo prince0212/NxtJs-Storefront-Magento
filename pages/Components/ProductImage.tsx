@@ -35,7 +35,8 @@ function ProductImage(pro) {
             {attr.attribute_code == "thumbnail" && attr.value != "" ? (
               <Image
                 src={
-                  "http://b2c-community.local:8800/media/catalog/product/" +
+                  process.env.domain +
+                  "media/catalog/product/" +
                   `${attr.value}`
                 }
                 alt=""

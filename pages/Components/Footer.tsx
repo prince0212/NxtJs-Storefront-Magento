@@ -72,8 +72,7 @@ export default function Footer() {
             </a>
           </Link>
           <p className="mt-2 text-sm text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipsicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore.
+            B2C StoreFront
           </p>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
