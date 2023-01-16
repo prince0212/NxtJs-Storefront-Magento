@@ -85,7 +85,7 @@ function ShippingMethod() {
                   onSubmit={setShippingMethodsForOrder}
                 >
                   <section>
-                    <h2 className="font-semibold text-2xl mb-3">
+                    <h2 className="sm:text-3xl mb-5 text-gray-900">
                       Shipping Methods
                     </h2>
                     <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
@@ -130,16 +130,15 @@ function ShippingMethod() {
                               </>
                             );
                           })}
-                        <div className="flex text-right">
+                        <div className="flex justify-end">
                           <Link legacyBehavior href="/checkout/billing">
-                            <button className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg ml-4">
                               Back
                             </button>
                           </Link>
-                          &nbsp;&nbsp;
                           <button
                             type="submit"
-                            className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                            className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg ml-4 mr-5"
                           >
                             Continue to Payment Method
                           </button>

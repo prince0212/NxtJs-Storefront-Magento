@@ -69,24 +69,24 @@ function Billing() {
     savedAddress.firstname
       ? (firstname = savedAddress.firstname)
       : (firstname = "");
-      savedAddress.lastname
+    savedAddress.lastname
       ? (lastname = savedAddress.lastname)
       : (lastname = "");
-      savedAddress.street ? (street = savedAddress.street[0]) : (street = "");
-      savedAddress.street ? (street1 = savedAddress.street[1]) : (street1 = "");
-      savedAddress.city ? (city = savedAddress.city) : (city = "");
-      savedAddress.postcode
+    savedAddress.street ? (street = savedAddress.street[0]) : (street = "");
+    savedAddress.street ? (street1 = savedAddress.street[1]) : (street1 = "");
+    savedAddress.city ? (city = savedAddress.city) : (city = "");
+    savedAddress.postcode
       ? (postcode = savedAddress.postcode)
       : (postcode = "");
-      savedAddress.region
+    savedAddress.region
       ? (region =
-        savedAddress.region_id +
+          savedAddress.region_id +
           "_" +
           savedAddress.region_code +
           "_" +
           savedAddress.region)
       : (region = "");
-      savedAddress.telephone
+    savedAddress.telephone
       ? (telephone = savedAddress.telephone)
       : (telephone = "");
   }
@@ -112,7 +112,7 @@ function Billing() {
               <div className="rounded-md">
                 <form id="payment-form" onSubmit={setBillingShippingAddress}>
                   <section>
-                    <h2 className="font-semibold text-2xl mb-3">
+                    <h2 className="sm:text-3xl mb-5 text-gray-900">
                       Shipping & Billing Information
                     </h2>
                     <fieldset className=" bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
@@ -217,10 +217,10 @@ function Billing() {
                           isRequired="yes"
                         />
                       </div>
-                      <div className="p-2 w-full">
+                      <div className="flex justify-end">
                         <button
                           type="submit"
-                          className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                          className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg ml-4 mr-5"
                         >
                           Continue to Shipping Method
                         </button>

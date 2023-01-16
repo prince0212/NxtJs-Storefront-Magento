@@ -188,51 +188,52 @@ function Payment() {
               <div className="rounded-md">
                 <form id="payment-methods" onSubmit={placeAnOrder}>
                   <section>
-                    <h2 className="font-semibold text-2xl mb-3">
+                    <h2 className="sm:text-3xl mb-5 text-gray-900">
                       Payment Information
                     </h2>
                     <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
-                      {payMentMethods &&
-                        payMentMethods.map((item: any) => {
-                          return (
-                            <>
-                              <div className="p-4 w-full text-left ml-5">
-                                <div className="inline-flex items-center">
-                                  <input
-                                    type="radio"
-                                    id="payment_method"
-                                    name="payment_method"
-                                    required
-                                    className=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                                    value={item.code}
-                                  />
-                                </div>
-                                <div className="inline-flex items-left ml-5">
-                                  <span className="flex-grow flex flex-col pl-3">
-                                    <span className="title-font font-medium text-gray-900">
-                                      {item.title}
+                      <div className="text-center mt-5 mb-5">
+                        {payMentMethods &&
+                          payMentMethods.map((item: any) => {
+                            return (
+                              <>
+                                <div className="p-4 w-full text-left ml-5">
+                                  <div className="inline-flex items-center">
+                                    <input
+                                      type="radio"
+                                      id="payment_method"
+                                      name="payment_method"
+                                      required
+                                      className=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                      value={item.code}
+                                    />
+                                  </div>
+                                  <div className="inline-flex items-left ml-5">
+                                    <span className="flex-grow flex flex-col pl-3">
+                                      <span className="title-font font-medium text-gray-900">
+                                        {item.title}
+                                      </span>
                                     </span>
-                                  </span>
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                        })}
+                              </>
+                            );
+                          })}
+                        <div className="flex justify-end">
+                          <Link legacyBehavior href="/checkout/shippingmethod">
+                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                              Back
+                            </button>
+                          </Link>
+                          <button
+                            type="submit"
+                            className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg ml-4 mr-5"
+                          >
+                            Place an Order
+                          </button>
+                        </div>
+                      </div>
                     </fieldset>
-                    <div className="flex text-right">
-                      <Link legacyBehavior href="/checkout/shippingmethod">
-                        <button className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                          Back
-                        </button>
-                      </Link>
-                      &nbsp;&nbsp;
-                      <button
-                        type="submit"
-                        className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                      >
-                        Place an Order
-                      </button>
-                    </div>
                   </section>
                 </form>
               </div>

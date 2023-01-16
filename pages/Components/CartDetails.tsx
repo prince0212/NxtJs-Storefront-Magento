@@ -35,7 +35,7 @@ function CartDetails() {
   if (cartData) {
     return (
       <div className="col-span-1 bg-white lg:block hidden">
-        <h1 className="py-6 text-xl text-gray-600 px-8">
+        <h1 className="py-6 text-2xl font-medium title-font text-gray-900 px-8">
           Order Summary
         </h1>
         <ul className="py-6 border-t border-gray-300 space-y-6 px-8">
