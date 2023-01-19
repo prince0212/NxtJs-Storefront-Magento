@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { Fade } from "react-awesome-reveal";
 let totalCategoriesCount = 0;
 let totalPageCount = 0;
 
@@ -101,45 +102,47 @@ const List = (newdata: any) => {
                     passHref
                   >
                     <a>
-                      <div key={singleproduct.id} className="group relative">
-                        <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none">
-                          {singleproduct.custom_attributes.map(
-                            (attr, index) => (
-                              <>
-                                {attr.attribute_code == "thumbnail" &&
-                                attr.value != "" ? (
-                                  <Image
-                                    src={
-                                      process.env.domain +
-                                      "media/catalog/product/" +
-                                      `${attr.value}`
-                                    }
-                                    alt={singleproduct.name}
-                                    width={384}
-                                    height={512}
-                                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </>
-                            )
-                          )}
-                        </div>
-                        <div className="mt-4 flex justify-between">
-                          <div>
-                            <h2 className="text-gray-900 title-font text-lg font-medium">
-                              {singleproduct.name}
-                            </h2>
-                            <p className="mt-1 text-sm text-gray-900">
-                              {singleproduct.sku}
+                      <Fade delay={500} triggerOnce>
+                        <div key={singleproduct.id} className="group relative">
+                          <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none">
+                            {singleproduct.custom_attributes.map(
+                              (attr, index) => (
+                                <>
+                                  {attr.attribute_code == "thumbnail" &&
+                                  attr.value != "" ? (
+                                    <Image
+                                      src={
+                                        process.env.domain +
+                                        "media/catalog/product/" +
+                                        `${attr.value}`
+                                      }
+                                      alt={singleproduct.name}
+                                      width={384}
+                                      height={512}
+                                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                </>
+                              )
+                            )}
+                          </div>
+                          <div className="mt-4 flex justify-between">
+                            <div>
+                              <h2 className="text-gray-900 title-font text-lg font-medium">
+                                {singleproduct.name}
+                              </h2>
+                              <p className="mt-1 text-sm text-gray-900">
+                                {singleproduct.sku}
+                              </p>
+                            </div>
+                            <p className="text-sm font-medium text-gray-900">
+                              ${singleproduct.price}
                             </p>
                           </div>
-                          <p className="text-sm font-medium text-gray-900">
-                            ${singleproduct.price}
-                          </p>
                         </div>
-                      </div>
+                      </Fade>
                     </a>
                   </Link>
                 ))}
@@ -194,7 +197,7 @@ const List = (newdata: any) => {
   } else {
     return (
       <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-6 mx-auto">
           <div className="flex flex-wrap w-full mb-5 flex-col items-center text-center">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
               {newdata.categoryName}

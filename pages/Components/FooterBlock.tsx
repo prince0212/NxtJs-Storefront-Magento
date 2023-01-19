@@ -4,7 +4,7 @@ import React from "react";
 function FooterBlock(props: { blockTitle: any; blockData: any[] }) {
   return (
     <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-      <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+      <h2 className="sm:font-semibold text-gray-900 tracking-widest mb-3">
         <>{props.blockTitle}</>
       </h2>
       <nav className="list-none mb-10">

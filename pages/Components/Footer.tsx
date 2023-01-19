@@ -65,15 +65,13 @@ export default function Footer() {
             <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
               <Image
                 src="/Deloitte-logo_1.png"
-                height={150}
-                width={150}
+                height={0}
+                width={200}
                 alt={""}
               />
             </a>
           </Link>
-          <p className="mt-2 text-sm text-gray-500">
-            B2C StoreFront
-          </p>
+          <p className="mt-2 text-sm text-gray-500">B2C StoreFront</p>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
           <FooterBlock

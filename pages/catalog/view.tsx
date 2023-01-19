@@ -1,98 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useQuery, gql } from "@apollo/client";
-import ImageGallery from "react-image-gallery";
-import { useState } from "react";
-import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import ImageGallery from "react-image-gallery";
+import Image from "next/image";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from "react-accessible-accordion";
+import "react-accessible-accordion/dist/fancy-example.css";
 const View = (newdata: any) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const PRODUCT_QUERY = gql`
-    {
-      products(filter: { sku: { eq: "${newdata.sku}" } }) {
-        items {
-          id
-          name
-          sku
-          url_key
-          stock_status
-          new_from_date
-          new_to_date
-          special_price
-          special_from_date
-          special_to_date
-          __typename
-          short_description {
-            html
-          }
-          description {
-            html
-          }
-          sale
-          new
-          gender
-          attribute_set_id
-          meta_title
-          meta_keyword
-          meta_description
-          manufacturer
-          size
-          color
-          country_of_manufacture
-          gift_message_available
-          image {
-            url
-            label
-          }
-          small_image {
-            url
-            label
-          }
-          thumbnail {
-            url
-            label
-          }
-          swatch_image
-          media_gallery {
-            url
-            label
-          }
-          price_range {
-            maximum_price {
-              final_price {
-                value
-                currency
-              }
-            }
-          }
+  const [product, setProduct] = useState();
+  const [loaded, setLoaded] = useState(false);
+  function getCurrentProduct() {
+    let SKU = newdata.SKU;
+    axios({
+      method: "get",
+      url: `/api/getProduct?SKU=` + SKU,
+    })
+      .then(function (response) {
+        if (response.status == 200) {
+          setProduct(response.data.data);
+          setLoaded(true);
         }
-      }
-    }
-  `;
-  const { data, loading, error } = useQuery(PRODUCT_QUERY);
-  const productData = [];
-  if (data) {
-    data.products.items.map((item: any) => {
-      productData.push({
-        name: item.name,
-        sku: item.sku,
-        stock_status: item.stock_status,
-        price: item.price_range.maximum_price.final_price.value,
-        image: item.image.url,
-        media_gallery: item.media_gallery,
-        description: item.description.html,
+      })
+      .catch(function (response) {
+        console.log(response);
       });
-    });
   }
-  if (loading) {
-    return (
-      <div className="container px-5 py-24 mx-auto">
-        <div className="spinner-container flex mx-auto mt-16 text-white border-0 py-2 px-8 focus:outline-none rounded text-lg">
-          <div className="loading-spinner"></div>
-        </div>
-      </div>
-    );
-  }
-  if (error) return <pre>{error.message}</pre>;
+
   function addToCart(e: any) {
     e.preventDefault();
 
@@ -130,102 +69,136 @@ const View = (newdata: any) => {
         document.getElementById("succmessage").innerHTML = response;
       });
   }
-  let productImage: { original: any; thumbnail: any; }[] = [];
-  if (productData) {
-    {
-      productData.map((item: any) => {
-        if (item.media_gallery.length > 1) {
-          item.media_gallery.map((newitem: any) => {
-            productImage.push({
-              original: newitem.url,
-              thumbnail: newitem.url,
-            });
-            console.log(newitem.url);
-            // if (item.media_gallery) {
-            //   productImage.push({ original: item.url, thumbnail: item.url });
-            // }
-          });
-        }
+  useEffect(() => {
+    getCurrentProduct();
+  }, []);
+
+  if (!loaded) {
+    return (
+      <div className="container px-5 py-24 mx-auto">
+        <div className="spinner-container flex mx-auto mt-16 text-white border-0 py-2 px-8 focus:outline-none rounded text-lg">
+          <div className="loading-spinner"></div>
+        </div>
+      </div>
+    );
+  }
+  if (product) {
+    let productImageArray: { original: string; thumbnail: string; }[] = [];
+    product.media_gallery_entries.map((attr: any, index: any) => {
+      productImageArray.push({
+        original:
+          process.env.domain + "media/catalog/product/" + `${attr.file}`,
+        thumbnail:
+          process.env.domain + "media/catalog/product/" + `${attr.file}`,
       });
-    }
-    console.log(productImage);
+    });
+
     return (
       <section className="text-gray-600 body-font overflow-hidden">
         <>
-          {productData.map((item: any) => {
-            return (
-              // eslint-disable-next-line react/jsx-key
-              <div className="container px-5 py-6 mx-auto">
-                <div
-                  className="flex flex-col text-center w-full text-green-700 mb-5"
-                  id="succmessage"
-                ></div>
+          <div className="container px-5 py-6 mx-auto">
+            <div
+              className="flex flex-col text-center w-full text-green-700 mb-5"
+              id="succmessage"
+            ></div>
 
-                <input type="hidden" id="sku" name="sku" value={item.sku} />
-                <div className="lg:w-11/12 mx-auto flex flex-wrap">
-                  <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
-                    {productImage.length > 0 && (
-                      <ImageGallery
-                        items={productImage}
-                        autoPlay={false}
-                        showPlayButton={false}
-                        lazyLoad={true}
-                        showNav={true}
-                        thumbnailPosition="left"
-                      />
-                    )}
-                    {productImage.length <= 0 && (
-                      <Image
-                        src={item.image}
-                        width={600}
-                        height={512}
-                        alt={""}
-                        className="object-cover object-center group-hover:opacity-75"
-                      />
-                    )}
-                  </div>
-                  <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
-                    <div className="text-left mb-5">
-                      <h1 className="text-gray-900 text-4xl title-font font-medium mb-2">
-                        {item.name}
-                      </h1>
-                      <p className="text-sm title-font text-gray-500 tracking-widest">
-                        SKU#: {item.sku}
+            <input type="hidden" id="sku" name="sku" value={product.sku} />
+            <div className="lg:w-11/12 mx-auto flex flex-wrap">
+              <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
+                {productImageArray.length > 0 && (
+                  <ImageGallery
+                    items={productImageArray}
+                    autoPlay={false}
+                    showPlayButton={false}
+                    lazyLoad={true}
+                    showNav={true}
+                    thumbnailPosition="left"
+                  />
+                )}
+                {productImageArray.length <= 0 && (
+                  <Image
+                    src={item.image}
+                    width={600}
+                    height={512}
+                    alt={""}
+                    className="object-cover object-center group-hover:opacity-75"
+                  />
+                )}
+              </div>
+              <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
+                <div className="text-left mb-5">
+                  <h1 className="text-gray-900 text-4xl title-font font-medium mb-2">
+                    {product.name}
+                  </h1>
+                  <p className="text-sm title-font text-gray-500 tracking-widest">
+                    SKU#: {product.sku}
+                  </p>
+                  <p className="text-sm title-font text-gray-500 tracking-widest">
+                    {product.extension_attributes.stock_item.is_in_stock
+                      ? "IN STOCK"
+                      : "OUT OF STOCK"}
+                  </p>
+                </div>
+                <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
+                  <div className="flex"></div>
+                </div>
+                <Accordion preExpanded={"description"}>
+                  <AccordionItem uuid="description">
+                    <AccordionItemHeading>
+                      <AccordionItemButton>Description</AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <p>
+                        {product.custom_attributes.map((attr, index) => {
+                          return (
+                            <>
+                              {attr.attribute_code == "description" &&
+                              attr.value != "" ? (
+                                <p
+                                  className="leading-relaxed mb-8 text-black"
+                                  dangerouslySetInnerHTML={{
+                                    __html: attr.value,
+                                  }}
+                                ></p>
+                              ) : (
+                                ""
+                              )}
+                            </>
+                          );
+                        })}
                       </p>
-                      <p className="text-sm title-font text-gray-500 tracking-widest">
-                        {
-                          (item.stock_status = "IN_STOCK"
-                            ? "IN STOCK"
-                            : "OUT OF STOCK")
-                        }
-                      </p>
-                    </div>
-                    <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
-                      <div className="flex"></div>
-                    </div>
-                    <p
-                      className="leading-relaxed mb-8 text-black"
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    ></p>
-                    <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
-                      <div className="flex"></div>
-                    </div>
-                    <div className="flex">
-                      <span className="title-font font-bold text-3xl text-gray-900">
-                        ${item.price}
-                      </span>
-                      <button
-                        className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                        onClick={addToCart}
-                      >
-                        Add To Cart
-                      </button>
-                    </div>
-                  </div>
+                    </AccordionItemPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionItemHeading>
+                      <AccordionItemButton>
+                        More Information
+                      </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <p>Activity: Gym</p>
+                      <p>Material: Leather</p>
+                    </AccordionItemPanel>
+                  </AccordionItem>
+                </Accordion>
+
+                <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
+                  <div className="flex"></div>
+                </div>
+                <div className="flex">
+                  <span className="title-font font-bold text-3xl text-gray-900">
+                    ${product.price}
+                  </span>
+                  <button
+                    className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                    onClick={addToCart}
+                  >
+                    Add To Cart
+                  </button>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          </div>
         </>
       </section>
     );
@@ -234,8 +207,9 @@ const View = (newdata: any) => {
 export default View;
 
 export async function getServerSideProps(context) {
-  console.log(context);
   return {
-    props: { sku: context.query.sku },
+    props: {
+      SKU: context.query.sku,
+    },
   };
 }
