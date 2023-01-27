@@ -4,6 +4,7 @@ import HomePageSlider from "./Components/HomePageSlider";
 import HomePageContent from "./Components/HomePageContent";
 import HomePageTopBanner from "./Components/HomePageTopBanner";
 import HomePageBottomContent from "./Components/HomePageBottomContent";
+import { ThreeDots } from "react-loader-spinner";
 
 const CMS_PAGE_QUERY = gql`
   {
@@ -22,7 +23,7 @@ const CMS_PAGE_QUERY = gql`
 
 export default function Home() {
   const { data, loading, error } = useQuery(CMS_PAGE_QUERY);
-  if (loading) return "Loading...";
+  if (loading) return <ThreeDots color={"#062DF6"} size={50} />;
   if (error) return <pre>{error.message}</pre>;
   const sliderArray: any[] = [];
   const homePageBanner: any[] = [];

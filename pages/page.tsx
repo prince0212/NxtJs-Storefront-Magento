@@ -1,5 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import React from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 const CmsPage = (newdata: any) => {
   const CMS_QUERY = gql`
@@ -19,7 +20,7 @@ const CmsPage = (newdata: any) => {
   `;
 
   const { data, loading, error } = useQuery(CMS_QUERY);
-  if (loading) return "Loading...";
+  if (loading) return <ThreeDots color={"#062DF6"} size={50} />;
   if (error) return <pre>{error.message}</pre>;
 
   if (data) {

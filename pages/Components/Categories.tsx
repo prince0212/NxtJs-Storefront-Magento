@@ -11,7 +11,7 @@ function Categories(props) {
             as={`/catalog/list?id=${item.newCatId}&pageNumber=1`}
             passHref
           >
-            <a className="mr-5 hover:text-gray-900">{item.catgoryName}</a>
+            <a className="mr-5 hover:text-indigo-600">{item.catgoryName}</a>
           </Link>
         );
       })}

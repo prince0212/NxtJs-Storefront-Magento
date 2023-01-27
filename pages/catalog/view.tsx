@@ -1,9 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
-import { useRouter } from "next/router";
+import React from "react";
 import { useState, useEffect } from "react";
+
+import ReactPlayer from "react-player";
+
 import ImageGallery from "react-image-gallery";
+
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import Image from "next/image";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from "react-loader-spinner";
+
 import {
   Accordion,
   AccordionItem,
@@ -11,8 +22,12 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+
+// Demo styles, see 'Styles' section below for some notes on use.
 import "react-accessible-accordion/dist/fancy-example.css";
+
 const View = (newdata: any) => {
+  const [loading, setloading] = useState(false);
   const [product, setProduct] = useState();
   const [loaded, setLoaded] = useState(false);
   function getCurrentProduct() {
@@ -31,10 +46,27 @@ const View = (newdata: any) => {
         console.log(response);
       });
   }
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 3, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
 
   function addToCart(e: any) {
+    setloading(true);
     e.preventDefault();
-
     axios({
       method: "post",
       url: `/api/getCustomerCart`,
@@ -42,6 +74,9 @@ const View = (newdata: any) => {
     })
       .then(function (response) {
         if (response.status == 200) {
+          setTimeout(() => {
+            setloading(false);
+          }, 4000);
           axios({
             method: "post",
             url: `/api/addToCart`,
@@ -55,18 +90,43 @@ const View = (newdata: any) => {
           })
             .then(function (addToCartresponse) {
               if (addToCartresponse.status == 200) {
-                document.getElementById("succmessage").innerHTML =
-                  "Product added to cart successfully.";
+                toast.success("Product added to cart successfully.", {
+                  position: "top-right",
+                  autoClose: 1000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
               }
             })
             .catch(function () {
-              document.getElementById("succmessage").innerHTML =
-                addToCartresponse;
+              toast.error(addToCartresponse, {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
             });
         }
       })
       .catch(function (response) {
-        document.getElementById("succmessage").innerHTML = response;
+        toast.error(response, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   }
   useEffect(() => {
@@ -83,7 +143,7 @@ const View = (newdata: any) => {
     );
   }
   if (product) {
-    let productImageArray: { original: string; thumbnail: string; }[] = [];
+    let productImageArray: { original: string; thumbnail: string }[] = [];
     product.media_gallery_entries.map((attr: any, index: any) => {
       productImageArray.push({
         original:
@@ -96,12 +156,23 @@ const View = (newdata: any) => {
     return (
       <section className="text-gray-600 body-font overflow-hidden">
         <>
+          <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <div className="container px-5 py-6 mx-auto">
             <div
               className="flex flex-col text-center w-full text-green-700 mb-5"
               id="succmessage"
             ></div>
-
             <input type="hidden" id="sku" name="sku" value={product.sku} />
             <div className="lg:w-11/12 mx-auto flex flex-wrap">
               <div className="lg:w-1/2 w-full lg:pl-10 mt-6 lg:mt-0">
@@ -139,6 +210,21 @@ const View = (newdata: any) => {
                       : "OUT OF STOCK"}
                   </p>
                 </div>
+                <div className="flex">
+                  <span className="title-font font-bold text-3xl text-gray-900">
+                    ${product.price}
+                  </span>
+                  {loading ? (
+                    <ThreeDots color={"#062DF6"} loading={loading} size={50} />
+                  ) : (
+                    <button
+                      className="flex text-xl ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                      onClick={addToCart}
+                    >
+                      Add To Cart
+                    </button>
+                  )}
+                </div>
                 <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
                   <div className="flex"></div>
                 </div>
@@ -148,7 +234,7 @@ const View = (newdata: any) => {
                       <AccordionItemButton>Description</AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
-                      <p>
+                      <>
                         {product.custom_attributes.map((attr, index) => {
                           return (
                             <>
@@ -166,7 +252,7 @@ const View = (newdata: any) => {
                             </>
                           );
                         })}
-                      </p>
+                      </>
                     </AccordionItemPanel>
                   </AccordionItem>
                   <AccordionItem>
@@ -180,25 +266,135 @@ const View = (newdata: any) => {
                       <p>Material: Leather</p>
                     </AccordionItemPanel>
                   </AccordionItem>
+                  <AccordionItem>
+                    <AccordionItemHeading>
+                      <AccordionItemButton>Video</AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                      <>
+                        {product.custom_attributes.map((attr, index) => {
+                          return (
+                            <>
+                              {attr.attribute_code == "video" &&
+                              attr.value != "" ? (
+                                <ReactPlayer url={attr.value} width="600px" />
+                              ) : (
+                                ""
+                              )}
+                            </>
+                          );
+                        })}
+                      </>
+                    </AccordionItemPanel>
+                  </AccordionItem>
                 </Accordion>
-
-                <div className="flex mt-6 items-center pb-1 border-b-2 border-gray-200 mb-5">
-                  <div className="flex"></div>
-                </div>
-                <div className="flex">
-                  <span className="title-font font-bold text-3xl text-gray-900">
-                    ${product.price}
-                  </span>
-                  <button
-                    className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                    onClick={addToCart}
-                  >
-                    Add To Cart
-                  </button>
-                </div>
               </div>
             </div>
           </div>
+          <div className="container px-5 py-6 flex items-center lg:w-11/12 mx-auto border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
+            <div className="flex flex-wrap w-full">
+              <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+                  Related Products
+                </h1>
+                <div className="h-1 w-20 bg-indigo-500 rounded"></div>
+              </div>
+            </div>
+          </div>
+          <Carousel
+            swipeable={false}
+            draggable={false}
+            showDots={true}
+            responsive={responsive}
+            ssr={true} // means to render carousel on server-side.
+            infinite={true}
+            autoPlaySpeed={1000}
+            keyBoardControl={true}
+            customTransition="all .5"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item-padding-40-px"
+          >
+            <div>
+              <div className="lg:w-full">
+                <div className="h-full px-8 rounded-lg overflow-hidden text-center relative">
+                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                    Harmony Lumaflex™ Strength Band Kit1
+                  </h1>
+                  <p className="leading-relaxed mb-3">
+                    <center>
+                      <Image
+                        src="http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/u/g/ug03-bk-0.jpg"
+                        alt=""
+                        width={300}
+                        height={300}
+                      />
+                    </center>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="lg:w-full">
+                <div className="h-full px-8 rounded-lg overflow-hidden text-center relative">
+                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                    Harmony Lumaflex™ Strength Band Kit2
+                  </h1>
+                  <p className="leading-relaxed items-center mb-3">
+                    <center>
+                      <Image
+                        src="http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/u/g/ug03-bk-0.jpg"
+                        alt=""
+                        width={300}
+                        height={300}
+                      />
+                    </center>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="lg:w-full">
+                <div className="h-full px-8 rounded-lg overflow-hidden text-center relative">
+                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                    Harmony Lumaflex™ Strength Band Kit3
+                  </h1>
+                  <p className="leading-relaxed items-center mb-3">
+                    <center>
+                      <Image
+                        src="http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/u/g/ug03-bk-0.jpg"
+                        alt=""
+                        width={300}
+                        height={300}
+                      />
+                    </center>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="lg:w-full">
+                <div className="h-full px-8 rounded-lg overflow-hidden text-center relative">
+                  <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                    Harmony Lumaflex™ Strength Band Kit4
+                  </h1>
+
+                  <p className="leading-relaxed items-center mb-3">
+                    <center>
+                      <Image
+                        src="http://b2c-community.local:8800/media/catalog/product/cache/c93cce11af99c07ac82f6577df79e3ff/u/g/ug03-bk-0.jpg"
+                        alt=""
+                        width={300}
+                        height={300}
+                      />
+                    </center>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Carousel>
         </>
       </section>
     );

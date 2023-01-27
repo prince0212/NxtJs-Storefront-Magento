@@ -2,8 +2,10 @@ import { useQuery, gql } from "@apollo/client";
 import Categories from "./Categories";
 import Link from "next/link";
 import Logo from "./Logo";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import { ThreeDots } from "react-loader-spinner";
+
 const CATEGORY_QUERY = gql`
   {
     categoryList(filters: { parent_id: { in: ["1"] } }) {
@@ -54,7 +56,8 @@ export default function Header() {
       );
     });
   }
-  if (loading) return "Loading...";
+  if (loading)
+    return <ThreeDots color={"#062DF6"} loading={loading} size={50} />;
   if (error) return <pre>{error.message}</pre>;
   return (
     <header className="text-gray-600 body-font">

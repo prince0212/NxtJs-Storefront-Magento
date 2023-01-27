@@ -1,6 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { gql } from "@apollo/client/core";
+import { ThreeDots } from "react-loader-spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CREATE_ACCOUNT_QRY = gql`
   mutation (
@@ -27,6 +30,7 @@ const CREATE_ACCOUNT_QRY = gql`
 `;
 
 function CreateAcccount() {
+  const [loading, setloading] = useState(false);
   // const [isSubscribed, setIsSubscribed] = useState(false);
   const [createContactUsQry] = useMutation(CREATE_ACCOUNT_QRY);
   const [formData, setFormData] = useState({
@@ -51,6 +55,7 @@ function CreateAcccount() {
   };
 
   const handleSubmit = (e: any) => {
+    setloading(true);
     e.preventDefault();
 
     const { firstname, lastname, email, password, is_subscribed } = formData;
@@ -64,16 +69,51 @@ function CreateAcccount() {
       },
     })
       .then((res) => {
+        setTimeout(() => {
+          setloading(false);
+        });
         document.getElementById("create-account-form").reset();
-        document.getElementById("succmessage").innerHTML =
-          "Thanks for registering with us.";
+        toast.success("Thanks for registering with us.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
       .catch((err) => {
-        document.getElementById("succmessage").innerHTML = err;
+        setTimeout(() => {
+          setloading(false);
+        }, 500);
+        toast.error(err.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
   return (
     <section className="text-gray-600 body-font">
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="container px-5 py-6 mx-auto flex flex-wrap items-center">
         <div className="lg:w-2/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <h1 className="title-font font-medium text-3xl text-gray-900">
@@ -85,10 +125,6 @@ function CreateAcccount() {
           </p>
         </div>
         <div className="lg:w-3/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-          <div
-            className="flex flex-col text-center w-full text-green-700"
-            id="succmessage"
-          ></div>
           <form onSubmit={handleSubmit} id="create-account-form">
             <h2 className="sm:text-3xl mb-5 text-gray-900">Sign Up</h2>
             <div className="relative mb-4">
@@ -167,9 +203,13 @@ function CreateAcccount() {
               />
               &nbsp;Subscribe to news and updates
             </div> */}
-            <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Create an Account
-            </button>
+            {loading ? (
+              <ThreeDots color={"#062DF6"} loading={loading} size={50} />
+            ) : (
+              <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                Create an Account
+              </button>
+            )}
           </form>
         </div>
       </div>

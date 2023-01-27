@@ -1,6 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { gql } from "@apollo/client/core";
+import { ThreeDots } from "react-loader-spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const SUBSCRIPTION_QRY = gql`
   mutation ($email: String!) {
     subscribeEmailToNewsletter(email: $email) {
@@ -9,6 +13,8 @@ const SUBSCRIPTION_QRY = gql`
   }
 `;
 function Subscription() {
+  const [loading, setloading] = useState(false);
+
   const [subscriptionQry] = useMutation(SUBSCRIPTION_QRY);
   const [formData, setFormData] = useState({
     email: "",
@@ -22,6 +28,8 @@ function Subscription() {
   };
 
   const handleSubmit = (e: any) => {
+    setloading(true);
+
     e.preventDefault();
     const { email } = formData;
 
@@ -31,11 +39,18 @@ function Subscription() {
       },
     })
       .then((res) => {
+        setTimeout(() => {
+          setloading(false);
+        });
+        
         document.getElementById("subscription-form").reset();
         document.getElementById("subscription-success-message").innerHTML =
           "The email address is subscribed.";
       })
       .catch((err) => {
+        setTimeout(() => {
+          setloading(false);
+        });
         document.getElementById("subscription-form").reset();
         document.getElementById("subscription-success-message").innerHTML = err;
       });
@@ -62,9 +77,18 @@ function Subscription() {
               className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
-          <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
-            Subscribe
-          </button>
+          {loading ? (
+            <ThreeDots
+              color={"#062DF6"}
+              loading={loading}
+              size={50}
+              height={50}
+            />
+          ) : (
+            <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
+              Subscribe
+            </button>
+          )}
         </div>
       </form>
       <p className="text-gray-500 text-sm mt-2 md:text-left text-center">

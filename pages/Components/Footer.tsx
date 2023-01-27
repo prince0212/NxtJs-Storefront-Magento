@@ -4,6 +4,8 @@ import Copyright from "./Copyright";
 import Subscription from "./Subscription";
 import FooterBlock from "./FooterBlock";
 import Image from "next/image";
+import { ThreeDots } from "react-loader-spinner";
+
 const BLOCK_QUERY = gql`
   {
     cmsBlocks(identifiers: "footer-block-one") {
@@ -23,7 +25,7 @@ export default function Footer() {
   let SecondFooterTitle = "";
   let ThirdFooterData: never[] = [];
   let ThirdFooterTitle = "";
-  if (loading) return "Loading...";
+  if (loading) return <ThreeDots color={"#062DF6"} size={50} />;
   if (error) return <pre>{error.message}</pre>;
 
   if (data) {
@@ -59,6 +61,7 @@ export default function Footer() {
 
   return (
     <footer className="text-gray-600 body-font">
+      
       <div className="container px-5 py-12 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
           <Link legacyBehavior href="/">
