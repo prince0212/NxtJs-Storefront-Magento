@@ -1,7 +1,9 @@
 import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import AwesomeSlider from "react-awesome-slider";
+import withAutoplay from "react-awesome-slider/dist/autoplay";
+
+import "react-awesome-slider/dist/styles.css";
+
 var settings = {
   dots: true,
   arrows: false,
@@ -15,23 +17,22 @@ var settings = {
 };
 
 function HomePageSlider(props: any) {
+  const AutoplaySlider = withAutoplay(AwesomeSlider);
+
   return (
-    <Slider {...settings}>
+    <AutoplaySlider
+      play={true}
+      cancelOnInteraction={false} // should stop playing on user interaction
+      interval={6000}
+      bullets={false}
+    >
       {props.sliderArray.map((item: any, index: number) => {
         return (
-          <>
-            <div>
-              <Image
-                src={process.env.domain + "media/" + `${item.image}`}
-                alt="Picture of the author"
-                width={1440}
-                height={660}
-              />
-            </div>
-          </>
+          // eslint-disable-next-line react/jsx-key
+          <div data-src={process.env.domain + "media/" + `${item.image}`}></div>
         );
       })}
-    </Slider>
+    </AutoplaySlider>
   );
 }
 export default HomePageSlider;
