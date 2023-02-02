@@ -81,11 +81,8 @@ export default function Header() {
               </button>
               <ul className="absolute hidden text-gray-700 group-hover:block">
                 <li className="w-full">
-                  <Link legacyBehavior href="#" className="cursor">
-                    <a
-                      className="rounded-t bg-gray-200 hover:bg-gray-400  py-2 px-2 block"
-                      href="#"
-                    >
+                  <Link legacyBehavior href="/customer/my-account" className="cursor">
+                    <a className="rounded-t bg-gray-200 hover:bg-gray-400  py-2 px-2 block">
                       My Account
                     </a>
                   </Link>

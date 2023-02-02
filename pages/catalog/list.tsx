@@ -112,22 +112,19 @@ const List = (newdata: any) => {
                                   {attr.attribute_code == "thumbnail" &&
                                   attr.value != "" ? (
                                     <center>
-                                      <div className="group box-border overflow-hidden flex cursor-pointer pe-0 pb-2 lg:pb-3 flex-col items-start transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-product  bg-white">
+                                      <div className="group box-border overflow-hidden flex cursor-pointer pe-0 pb-2 lg:pb-3 flex-col items-start transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-product bg-white border">
                                         <div className="flex mb-3 md:mb-3.5">
                                           <span>
-                                            <span>
-                                              <Image
-                                                src={
-                                                  process.env.domain +
-                                                  "media/catalog/product/" +
-                                                  `${attr.value}`
-                                                }
-                                                alt={singleproduct.name}
-                                                width={350}
-                                                height={50}
-                                                className="object-cover object-center text-center"
-                                              />
-                                            </span>
+                                            <Image
+                                              src={
+                                                process.env.domain +
+                                                "media/catalog/product/" +
+                                                `${attr.value}`
+                                              }
+                                              alt={singleproduct.name}
+                                              width={350}
+                                              height={50}
+                                            />
                                           </span>
                                         </div>
                                         <div className="w-full overflow-hidden p-2 md:px-2.5 xl:px-4">

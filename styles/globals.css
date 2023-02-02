@@ -24,6 +24,6 @@
 }
 
 .hover\:shadow-product.bg-white:hover {
-  -webkit-box-shadow: 10px 12px 10px #757575;
-  box-shadow: 10px 12px 10px #757575;
+  -webkit-box-shadow: 5px 10px 12px 5px #D3D3D3;
+  box-shadow:5px 10px 12px 5px #D3D3D3;
 }
