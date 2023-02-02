@@ -25,6 +25,7 @@ function HomePageSlider(props: any) {
       cancelOnInteraction={false} // should stop playing on user interaction
       interval={6000}
       bullets={false}
+      className="mt-2" 
     >
       {props.sliderArray.map((item: any, index: number) => {
         return (

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
@@ -104,42 +105,60 @@ const List = (newdata: any) => {
                     <a>
                       <Fade delay={500} triggerOnce>
                         <div key={singleproduct.id} className="group relative">
-                          <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none">
+                          <div className="min-h-80 aspect-w-1 aspect-h-1 w-full  lg:aspect-none">
                             {singleproduct.custom_attributes.map(
                               (attr, index) => (
                                 <>
                                   {attr.attribute_code == "thumbnail" &&
                                   attr.value != "" ? (
-                                    <Image
-                                      src={
-                                        process.env.domain +
-                                        "media/catalog/product/" +
-                                        `${attr.value}`
-                                      }
-                                      alt={singleproduct.name}
-                                      width={384}
-                                      height={512}
-                                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                                    />
+                                    <center>
+                                      <div className="group box-border overflow-hidden flex cursor-pointer pe-0 pb-2 lg:pb-3 flex-col items-start transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-product  bg-white">
+                                        <div className="flex mb-3 md:mb-3.5">
+                                          <span>
+                                            <span>
+                                              <Image
+                                                src={
+                                                  process.env.domain +
+                                                  "media/catalog/product/" +
+                                                  `${attr.value}`
+                                                }
+                                                alt={singleproduct.name}
+                                                width={350}
+                                                height={50}
+                                                className="object-cover object-center text-center"
+                                              />
+                                            </span>
+                                          </span>
+                                        </div>
+                                        <div className="w-full overflow-hidden p-2 md:px-2.5 xl:px-4">
+                                          <h2 className="mb-1 text-sm md:text-base font-semibold text-heading">
+                                            {singleproduct.name}
+                                          </h2>
+                                          <div className="font-semibold text-sm sm:text-base mt-1.5 space-s-2 lg:text-lg lg:mt-2.5 text-heading">
+                                            <span className="inline-block false">
+                                              ${singleproduct.price}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      {/* <Image
+                                        src={
+                                          process.env.domain +
+                                          "media/catalog/product/" +
+                                          `${attr.value}`
+                                        }
+                                        alt={singleproduct.name}
+                                        width={300}
+                                        height={50}
+                                        className="object-cover object-center text-center"
+                                      /> */}
+                                    </center>
                                   ) : (
                                     ""
                                   )}
                                 </>
                               )
                             )}
-                          </div>
-                          <div className="mt-4 flex justify-between">
-                            <div>
-                              <h2 className="text-gray-900 title-font text-lg font-medium">
-                                {singleproduct.name}
-                              </h2>
-                              <p className="mt-1 text-sm text-gray-900">
-                                {singleproduct.sku}
-                              </p>
-                            </div>
-                            <p className="text-sm font-medium text-gray-900">
-                              ${singleproduct.price}
-                            </p>
                           </div>
                         </div>
                       </Fade>

@@ -4,6 +4,7 @@ import { gql } from "@apollo/client/core";
 import { ThreeDots } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 const CREATE_ACCOUNT_QRY = gql`
   mutation (
@@ -206,10 +207,23 @@ function CreateAcccount() {
             {loading ? (
               <ThreeDots color={"#062DF6"} loading={loading} size={50} />
             ) : (
-              <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+              <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-800 rounded-full text-lg">
                 Create an Account
               </button>
             )}
+            <div className="mt-5">
+              <div className="text-sm sm:text-base text-body text-left mt-5 mb-1">
+                Already have an account?{" "}
+                <Link legacyBehavior href="/customer/login">
+                  <button
+                    type="button"
+                    className="text-sm sm:text-base text-heading underline font-bold hover:no-underline focus:outline-none text-indigo-600"
+                  >
+                    Login
+                  </button>
+                </Link>
+              </div>
+            </div>
           </form>
         </div>
       </div>

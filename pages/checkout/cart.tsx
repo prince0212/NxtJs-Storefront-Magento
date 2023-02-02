@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import ProductImage from "../Components/ProductImage";
 const Cart = () => {
-  const [cartData, setCartData] = useState(null);
+  const [cartData, setCartData] = useState("");
   const [cartTotalData, setCartTotalData] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -55,23 +55,23 @@ const Cart = () => {
       </div>
     );
   }
-  if (error) {
+  if (cartData.length <= 0) {
     return (
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-6 mx-auto ">
           <div className="flex my-10">
             <div className="w-full bg-white px-10 py-10">
               <div className="flex justify-between border-b-2 border-gray-200 pb-8">
-                <h1 className="sm:text-3xl text-gray-900">
-                  Shopping Cart
-                </h1>
+                <h1 className="sm:text-3xl text-gray-900">Shopping Cart</h1>
               </div>
               <div className="flex mt-5 mb-5">
                 You have no items in your shopping cart.
               </div>
               Click{" "}
               <Link legacyBehavior href="/">
-                <a className=" font-semibold text-indigo-600 mt-10">here</a>
+                <a className="font-semibold text-indigo-600  hover:text-indigo-800 hover:underline text-lg mt-10">
+                  here
+                </a>
               </Link>{" "}
               to continue shopping.
             </div>
@@ -80,6 +80,7 @@ const Cart = () => {
       </section>
     );
   }
+
   if (cartData) {
     return (
       <section className="text-gray-600 body-font overflow-hidden">
@@ -125,13 +126,13 @@ const Cart = () => {
                           </span>
                         </div>
                       </div>
-                      <span className="text-center w-1/5 font-l text-sm">
+                      <span className="text-center w-1/5 text-gray-900 font-l text-sm">
                         $<span className="font-l text-sm">{item.price}</span>
                       </span>
-                      <div className="flex justify-center w-1/5">
+                      <div className="flex justify-center text-gray-900 w-1/5">
                         <span className="font-l text-sm">{item.qty}</span>
                       </div>
-                      <span className="text-center w-1/5 font-l text-sm">
+                      <span className="text-center w-1/5 text-gray-900 font-l text-sm">
                         $
                         <span className="font-l text-sm">
                           {item.price * item.qty}
@@ -143,7 +144,7 @@ const Cart = () => {
               })}
 
               <Link legacyBehavior href="/">
-                <a className="flex font-semibold text-indigo-600 text-lg mt-10">
+                <a className="flex font-semibold text-indigo-600  hover:text-indigo-800 hover:underline text-lg mt-10">
                   Continue Shopping
                 </a>
               </Link>
@@ -171,7 +172,7 @@ const Cart = () => {
                     <span>${cartTotalData.grand_total}</span>
                   </div>
                   <Link href="/checkout/billing" legacyBehavior>
-                    <button className="flex w-full text-white bg-indigo-500 border-b border-gray-300 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-center text-lg place-content-center">
+                    <button className="flex w-full text-white bg-indigo-500 border-b border-gray-300 py-3 px-6 focus:outline-none hover:bg-indigo-600 rounded-full text-center text-lg place-content-center">
                       Proceed To Checkout
                     </button>
                   </Link>

@@ -15,10 +15,15 @@
   width: 50px;
   height: 50px;
   border: 10px solid #f3f3f3;
-  border-top: 10px solid #3949AB;
+  border-top: 10px solid #3949ab;
   border-radius: 50%;
   margin-left: auto;
   margin-right: auto;
   display: block;
   animation: spinner 1.5s linear infinite;
+}
+
+.hover\:shadow-product.bg-white:hover {
+  -webkit-box-shadow: 10px 12px 10px #757575;
+  box-shadow: 10px 12px 10px #757575;
 }

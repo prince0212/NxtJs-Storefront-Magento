@@ -42,7 +42,7 @@ function Subscription() {
         setTimeout(() => {
           setloading(false);
         });
-        
+
         document.getElementById("subscription-form").reset();
         document.getElementById("subscription-success-message").innerHTML =
           "The email address is subscribed.";
@@ -58,9 +58,7 @@ function Subscription() {
   return (
     <div className="lg:w-1/4 md:w-1/2 w-full px-4">
       <form onSubmit={handleSubmit} id="subscription-form">
-        <h2 className="sm:font-semibold text-gray-900 tracking-widest mb-3">
-          SUBSCRIBE
-        </h2>
+        <h2 className="sm:font-semibold text-black mb-3">SUBSCRIBE</h2>
         <div
           className="flex flex-col text-center w-full text-green-700"
           id="subscription-success-message"
@@ -85,14 +83,14 @@ function Subscription() {
               height={50}
             />
           ) : (
-            <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
+            <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-800  rounded-full">
               Subscribe
             </button>
           )}
         </div>
       </form>
-      <p className="text-gray-500 text-sm mt-2 md:text-left text-center">
-        Recieve the latest news, update and special offers right to your inbox.
+      <p className="text-black text- mt-2 md:text-left text-center">
+        Receive the latest news, update and special offers right to your inbox.
       </p>
     </div>
   );

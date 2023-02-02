@@ -45,7 +45,7 @@ function Success() {
               Thank you for your purchase
             </h1>
             <p className="lg:w-2/3 mx-auto leading-relaxed text-lg mb-2 mt-2">
-              Your order number is: {orderData.increment_id}
+              Your order number is: <span className="font-bold">{orderData.increment_id}</span>
             </p>
             <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
               We will email you order confirmation with details and tracking
@@ -53,7 +53,7 @@ function Success() {
             </p>
             <p className="lg:w-2/3 mx-auto leading-relaxed text-base mt-10">
               <Link legacyBehavior href="/">
-                <button className="flex-shrink-0 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mt-10 sm:mt-0">
+                <button className="flex-shrink-0 text-white bg-indigo-500 border-0 py-4 px-16 focus:outline-none hover:bg-indigo-800 rounded-full text-lg mt-10 sm:mt-0">
                   Continue Shopping
                 </button>
               </Link>

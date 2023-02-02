@@ -13,7 +13,8 @@ export default async function handler(
 ) {
   const session = await getSession({ req });
   const endpoint = process.env.API_URL + "rest/V1/orders/" + req.query.orderId;
-  const accessToken = "mn1yctu14ej49t0g29e6bdhl2qkj3tvu";
+  console.log(endpoint);
+  const accessToken = "nh1fvyr0dtcq60vhskp929xuabk9prlp";
   try {
     const response = await axios.get(endpoint, {
       headers: { Authorization: `Bearer ${accessToken}` },

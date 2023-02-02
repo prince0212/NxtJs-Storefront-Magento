@@ -34,6 +34,7 @@ export default async function handler(
       total_count: response.data.total_count,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ data: e });
   }
 }

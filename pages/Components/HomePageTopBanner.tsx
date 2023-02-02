@@ -12,12 +12,12 @@ function HomePageTopBanner(props: any) {
           <p className="mb-8 leading-relaxed">{props.homePageBanner.content}</p>
           <div className="flex justify-center">
             <Link href={`${props.homePageBanner.link1}`}>
-              <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+              <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800 rounded-full text-lg">
                 {props.homePageBanner.button1}
               </button>
             </Link>
             <Link href={`${props.homePageBanner.link2}`}>
-              <button className="ml-4 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+              <button className="ml-4 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800  rounded-full text-lg">
                 {props.homePageBanner.button2}
               </button>
             </Link>

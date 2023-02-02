@@ -3,7 +3,7 @@ import Layout from "./Components/Layout";
 import type { AppProps } from "next/app";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
-
+import { useState } from "react";
 const client = new ApolloClient({
   uri: process.env.domain + "graphql/",
   cache: new InMemoryCache(),

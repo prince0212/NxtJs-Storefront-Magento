@@ -47,7 +47,7 @@ function CartDetails() {
                     <ProductImage sku={item.sku} />
                   </div>
                   <div className="flex flex-col col-span-3 pt-2">
-                    <span className="text-gray-600 text-md font-semi-bold">
+                    <span className="text-gray-900 text-md font-semi-bold">
                       {item.name}
                     </span>
                     <span className="text-gray-500 text-sm inline-block pt-2">
@@ -56,8 +56,8 @@ function CartDetails() {
                   </div>
                   <div className="col-span-2 pt-3">
                     <div className="flex items-center space-x-2 text-sm justify-between">
-                      <span className="text-gray-600 ml-5" >{item.qty}</span>
-                      <span className="text-gray-600 font-l inline-block">
+                      <span className="text-gray-900 ml-5" >{item.qty}</span>
+                      <span className="text-gray-900 font-l inline-block">
                         ${item.price * item.qty}
                       </span>
                     </div>

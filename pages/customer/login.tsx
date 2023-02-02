@@ -1,5 +1,6 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
@@ -127,10 +128,23 @@ function Login() {
             {loading ? (
               <ThreeDots color={"#062DF6"} loading={loading} size={50} />
             ) : (
-              <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+              <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-800 rounded-full text-lg">
                 Sign In
               </button>
             )}
+            <div className="mt-5">
+              <div className="text-sm sm:text-base text-body text-left mt-5 mb-1">
+                Don't have any account?{" "}
+                <Link legacyBehavior href="/customer/createaccount">
+                  <button
+                    type="button"
+                    className="text-sm sm:text-base text-heading underline font-bold hover:no-underline focus:outline-none text-indigo-600"
+                  >
+                    Register
+                  </button>
+                </Link>
+              </div>
+            </div>
           </form>
         </div>
       </div>

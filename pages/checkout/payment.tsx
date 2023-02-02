@@ -3,7 +3,11 @@ import Link from "next/link";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { ThreeDots } from "react-loader-spinner";
+
 function Payment() {
+  const [loading, setloading] = useState(false);
+
   const [payMentMethods, setPayMentMethods] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -129,6 +133,7 @@ function Payment() {
   //     });
   // }
   function placeAnOrder(e: event) {
+    setloading(true);
     e.preventDefault();
     const placeAnOrderJson = {
       billing_address: {
@@ -155,6 +160,9 @@ function Payment() {
     })
       .then(function (response) {
         if (response.status == 200) {
+          setTimeout(() => {
+            setloading(false);
+          }, 3000);
           if (response.data.data) {
             router.push({
               pathname: "/checkout/success",
@@ -220,17 +228,31 @@ function Payment() {
                             );
                           })}
                         <div className="flex justify-end">
-                          <Link legacyBehavior href="/checkout/shippingmethod">
-                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                              Back
-                            </button>
-                          </Link>
-                          <button
-                            type="submit"
-                            className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg ml-4 mr-5"
-                          >
-                            Place an Order
-                          </button>
+                          {loading ? (
+                            <ThreeDots
+                              color={"#062DF6"}
+                              loading={loading}
+                              size={50}
+                              wrapperClass="mr-5"
+                            />
+                          ) : (
+                            <>
+                              <Link
+                                legacyBehavior
+                                href="/checkout/shippingmethod"
+                              >
+                                <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800 rounded-full text-lg">
+                                  Back
+                                </button>
+                              </Link>
+                              <button
+                                type="submit"
+                                className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800 rounded-full text-lg ml-4 mr-5"
+                              >
+                                Place an Order
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </fieldset>
