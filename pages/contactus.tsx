@@ -1,6 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { gql } from "@apollo/client/core";
+import { ThreeDots } from "react-loader-spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CONTACTUS_QRY = gql`
   mutation (
@@ -22,6 +25,8 @@ const CONTACTUS_QRY = gql`
   }
 `;
 function Contactus() {
+  const [loading, setloading] = useState(false);
+
   const [createContactUsQry] = useMutation(CONTACTUS_QRY);
   const [formData, setFormData] = useState({
     message: "",
@@ -38,6 +43,7 @@ function Contactus() {
   };
 
   const handleSubmit = (e: any) => {
+    setloading(true);
     e.preventDefault();
     const { message, email, telephone, fullname } = formData;
 
@@ -50,17 +56,54 @@ function Contactus() {
       },
     })
       .then((res) => {
+        setTimeout(() => {
+          setloading(false);
+        }, 3000);
+
         document.getElementById("contact-form").reset();
-        document.getElementById("succmessage").innerHTML =
-          "Thanks for contacting us with your comments and questions. We'll respond to you very soon.";
+        toast.success(
+          "Thanks for contacting us with your comments and questions. We'll respond to you very soon.",
+          {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
       })
       .catch((err) => {
-        document.getElementById("succmessage").innerHTML = err;
+        toast.error(err.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
   return (
     <section className="text-gray-600 body-font relative">
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div className="container px-5 py-6 mx-auto">
         <div className="flex flex-col text-center w-full mb-10">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
@@ -151,12 +194,21 @@ function Contactus() {
                 </div>
               </div>
               <div className="p-2 w-full">
-                <button
-                  type="submit"
-                  className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                >
-                  Send
-                </button>
+                {loading ? (
+                  <ThreeDots
+                    color={"#062DF6"}
+                    loading={loading}
+                    size={50}
+                    wrapperClass="text-center"
+                  />
+                ) : (
+                  <button
+                    type="submit"
+                    className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded-full text-lg object-center"
+                  >
+                    Send
+                  </button>
+                )}
               </div>
             </div>
           </form>
