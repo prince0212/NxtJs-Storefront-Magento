@@ -4,7 +4,7 @@ import Image from "next/image";
 function HomePageContent(props: any) {
   return (
     <div className="xl:w-1/3 md:w-1/2 p-4">
-      <div className="bg-gray-100 p-6 rounded-lg hover:bg-gray-200 border border-gray-400">
+      <div className="bg-gray-100 p-6 rounded-lg">
         <Link href={`${props.homePageContent.link}`}>
           <Image
             src={

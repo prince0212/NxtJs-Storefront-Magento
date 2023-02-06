@@ -1,68 +1,24 @@
-import { useQuery, gql } from "@apollo/client";
 import Categories from "./Categories";
+import axios from "axios";
 import Link from "next/link";
 import Logo from "./Logo";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import { ThreeDots } from "react-loader-spinner";
-const CATEGORY_QUERY = gql`
-  {
-    categoryList(filters: { parent_id: { in: ["1"] } }) {
-      children {
-        id
-        level
-        name
-        path
-        url_path
-        url_key
-      }
-    }
-  }
-`;
 
-export default function Header() {
-  //const [userInfo, setuserInfo] = useState(false);
+function Header() {
   const { data: session } = useSession();
-  const categoryData: { catgoryName: any; newCatId: any; categoryUrl: any }[] =
-    [];
-  const { data, loading, error } = useQuery(CATEGORY_QUERY);
-  // async function getSessionFun() {
-  //   const userData = await getSession();
-  //   if (!userInfo) {
-  //     setuserInfo(userData);
-  //   }
-  //   if (userInfo) {
-  //     console.log(userInfo);
-  //   }
-  // }
-  // useEffect(() => {
-  //   getSessionFun();
-  // }, []);
+
   const handleSignout = (e) => {
     localStorage.removeItem("customer_id");
     localStorage.removeItem("customer_email");
     localStorage.removeItem("current_order_id");
     signOut({ callbackUrl: "/" });
   };
-  if (data) {
-    data.categoryList.map((item: any, _index: any) => {
-      item.children.map((item1: any, _index: any) =>
-        categoryData.push({
-          catgoryName: item1.name,
-          newCatId: item1.id,
-          categoryUrl: item1.url_key,
-        })
-      );
-    });
-  }
-  if (loading)
-    return <ThreeDots color={"#062DF6"} loading={loading} size={50} />;
-  if (error) return <pre>{error.message}</pre>;
   return (
     <header className="text-gray-600 body-font border-b-2">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Logo />
-        <Categories categoryData={categoryData} />
+        <Categories />
         {session && (
           <>
             <div className="group inline-block relative z-50">
@@ -81,7 +37,11 @@ export default function Header() {
               </button>
               <ul className="absolute hidden text-gray-700 group-hover:block">
                 <li className="w-full">
-                  <Link legacyBehavior href="/customer/my-account" className="cursor">
+                  <Link
+                    legacyBehavior
+                    href="/customer/my-account"
+                    className="cursor"
+                  >
                     <a className="rounded-t bg-gray-200 hover:bg-gray-400  py-2 px-2 block">
                       My Account
                     </a>
@@ -138,3 +98,4 @@ export default function Header() {
     </header>
   );
 }
+export default Header;

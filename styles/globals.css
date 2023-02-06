@@ -24,6 +24,78 @@
 }
 
 .hover\:shadow-product.bg-white:hover {
-  -webkit-box-shadow: 5px 10px 12px 5px #D3D3D3;
-  box-shadow:5px 10px 12px 5px #D3D3D3;
+  -webkit-box-shadow: 5px 10px 12px 5px #d3d3d3;
+  box-shadow: 5px 10px 12px 5px #d3d3d3;
+}
+
+/* Mega Menu */
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 8px;
+  align-content: flex-start;
+  justify-content: flex-end;
+  width: 100%;
+}
+.sticky .menu {
+  align-content: center;
+  justify-content: flex-end;
+}
+nav ul,
+nav ol {
+  list-style: none none;
+}
+.submenu {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  /* left: 0; */
+  width: calc(900px / 2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1000000;
+  padding: 10px;
+}
+.level0 {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+.level0:hover .submenu {
+  display: block;
+  visibility: visible;
+}
+.level1 {
+  left: 0;
+  margin-left: auto;
+  height: auto;
+  z-index: 1;
+  position: relative;
+  padding-left: 10px;
+}
+.level1-haschild > span {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 700;
+}
+.level1-cat {
+  padding: 5px;
+}
+.level1-cat.level1-haschild {
+  width: 50%;
+  float: left;
+}
+.level2 {
+  padding-left: 0;
+}
+.level2 .level2-cat a {
+  padding: 10px 0px;
+}
+
+.awssld {
+  z-index: -1;
 }

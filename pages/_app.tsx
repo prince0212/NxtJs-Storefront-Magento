@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
+import Script from "next/script";
 const client = new ApolloClient({
   uri: process.env.domain + "graphql/",
   cache: new InMemoryCache(),
@@ -14,12 +15,14 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <ApolloProvider client={client}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ApolloProvider>
-    </SessionProvider>
+    <>
+      <SessionProvider session={session}>
+        <ApolloProvider client={client}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
+      </SessionProvider>
+    </>
   );
 }

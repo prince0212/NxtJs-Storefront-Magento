@@ -13,7 +13,7 @@ function FooterBlock(props: { blockTitle: any; blockData: any[] }) {
             return (
               <>
                 <li>
-                  <Link href={`/${item.link}`} id={item.title} key={item.title} className="hover:text-indigo-600 hover:underline text-black">
+                  <Link href={`${item.link}`} id={item.title} key={item.title} className="hover:text-indigo-600 hover:underline text-black">
                     <>{item.title}</>
                   </Link>
                 </li>

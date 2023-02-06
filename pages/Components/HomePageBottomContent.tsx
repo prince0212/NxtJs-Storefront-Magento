@@ -22,10 +22,17 @@ function HomePageBottomContent(props: any) {
           </h1>
           <p className="mb-8 leading-relaxed">{props.homePageBanner.content}</p>
           <div className="flex justify-center">
-            <Link href={`${props.homePageBanner.link}`}>
-              <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800  rounded-full text-lg">
+            <Link href={`${props.homePageBanner.link}`} legacyBehavior>
+              {/* <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-800  rounded-full text-lg">
                 {props.homePageBanner.button}
-              </button>
+              </button> */}
+              <a
+                href="#_"
+                className=" px-5 py-2.5 overflow-hidden group bg-indigo-500 relative hover:bg-gradient-to-r hover:from-indigo-500 hover:to-indigo-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-indigo-400 transition-all ease-out duration-300 rounded-full"
+              >
+                <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span className="relative">{props.homePageBanner.button}</span>
+              </a>
             </Link>
           </div>
         </div>
