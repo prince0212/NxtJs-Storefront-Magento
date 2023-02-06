@@ -1,9 +1,9 @@
 import styles from "../styles/Home.module.css";
 import { useQuery, gql } from "@apollo/client";
-import HomePageSlider from "./components/HomePageSlider";
-import HomePageContent from "./components/HomePageContent";
-import HomePageTopBanner from "./components/HomePageTopBanner";
-import HomePageBottomContent from "./components/HomePageBottomContent";
+import HomePageSlider from "./Components/HomePageSlider";
+import HomePageContent from "./Components/HomePageContent";
+import HomePageTopBanner from "./Components/HomePageTopBanner";
+import HomePageBottomContent from "./Components/HomePageBottomContent";
 import { ThreeDots } from "react-loader-spinner";
 
 const CMS_PAGE_QUERY = gql`
