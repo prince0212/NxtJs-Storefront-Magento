@@ -112,18 +112,18 @@ const List = (newdata: any) => {
                                   {attr.attribute_code == "thumbnail" &&
                                   attr.value != "" ? (
                                     <center>
-                                      <div className="group box-border overflow-hidden flex cursor-pointer pe-0 pb-2 lg:pb-3 flex-col items-start transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-product bg-white border">
+                                      <div className="group overflow-hidden flex cursor-pointer pe-0 pb-2 lg:pb-3 flex-col items-start transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-product bg-white">
                                         <div className="flex mb-3 md:mb-3.5">
                                           <span>
-                                            <Image
+                                            <img
+                                              height={300}
+                                              className="object-center"
                                               src={
                                                 process.env.domain +
                                                 "media/catalog/product/" +
                                                 `${attr.value}`
                                               }
                                               alt={singleproduct.name}
-                                              width={350}
-                                              height={50}
                                             />
                                           </span>
                                         </div>

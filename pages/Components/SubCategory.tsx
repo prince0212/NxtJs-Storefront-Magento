@@ -14,7 +14,7 @@ const SubCategory = (props) => {
         >
           <a
             href=""
-            className="relative text-black hover:text-indigo-500 inline-flex items-center px-3 py-2 text-sm font-normal xl:text-base text-heading xl:px-4 group-hover:text-black"
+            className="relative text-black hover:text-indigo-500 inline-flex items-center px-3 py-2 text-sm font-semibold xl:text-base text-heading xl:px-4 group-hover:text-black"
           >
             <span>{name}</span>
           </a>
